@@ -5,6 +5,8 @@ public class Evento {
     private String descripcion;
     private int cantidadMaximaParticipantes;
     private boolean esExterno;
+    private String nombreOrganizacion;
+    private double costoAlquiler;
 
     public Evento(String codigo, String descripcion, int cantidadMaximaParticipantes, boolean esExterno) {
         this.codigo = codigo;

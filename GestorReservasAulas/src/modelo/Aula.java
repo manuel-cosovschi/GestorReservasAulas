@@ -6,7 +6,8 @@ import java.util.List;
 public class Aula {
     private int numero;
     private int capacidad;
-    private List<Reserva> reservas;
+    // private List<Reserva> reservas;
+    private ArrayList<Reserva> reservas;
 
     public Aula(int numero, int capacidad) {
         this.numero = numero;
@@ -37,5 +38,7 @@ public class Aula {
     public void agregarReserva(Reserva reserva) {
         reservas.add(reserva);
     }
+
+    // To do: // Métodos para agregar, eliminar y listar reservas
 }
 

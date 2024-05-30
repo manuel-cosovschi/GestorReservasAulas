@@ -3,7 +3,9 @@ package modelo;
 public class Asignatura {
     private String codigo;
     private String nombre;
-    private String rangoFechas;
+    // private String rangoFechas;
+    private Date fechaInicio;
+    private Date fechaFin;
     private String diaSemana;
     private String horario;
     private int cantidadAlumnos;
@@ -11,7 +13,9 @@ public class Asignatura {
     public Asignatura(String codigo, String nombre, String rangoFechas, String diaSemana, String horario, int cantidadAlumnos) {
         this.codigo = codigo;
         this.nombre = nombre;
-        this.rangoFechas = rangoFechas;
+        // this.rangoFechas = rangoFechas;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
         this.diaSemana = diaSemana;
         this.horario = horario;
         this.cantidadAlumnos = cantidadAlumnos;
@@ -33,13 +37,13 @@ public class Asignatura {
         this.nombre = nombre;
     }
 
-    public String getRangoFechas() {
-        return rangoFechas;
-    }
+    // public String getRangoFechas() {
+    //     return rangoFechas;
+    // }
 
-    public void setRangoFechas(String rangoFechas) {
-        this.rangoFechas = rangoFechas;
-    }
+    // public void setRangoFechas(String rangoFechas) {
+    //     this.rangoFechas = rangoFechas;
+    // }
 
     public String getDiaSemana() {
         return diaSemana;
