@@ -47,6 +47,4 @@ public class GestionReservas {
     public List<Aula> consultarAulas(int piso, String codigoEntidad) {
         // Implementación para consultar aulas con filtros
     }
-
-    // Otros métodos auxiliares
 }
