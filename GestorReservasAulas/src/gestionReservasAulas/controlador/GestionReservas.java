@@ -25,8 +25,12 @@
 //         aula.agregarReserva(reserva);
 //     }
 // }
-
+package gestionReservasAulas.controlador;
+import java.sql.Date;
+import java.util.List;
 import java.util.TreeMap;
+
+import gestionReservasAulas.dominio.Aula;
 
 public class GestionReservas {
     private TreeMap<Integer, Aula> aulas;
@@ -45,6 +49,7 @@ public class GestionReservas {
     }
 
     public List<Aula> consultarAulas(int piso, String codigoEntidad) {
+        return null;
         // Implementación para consultar aulas con filtros
     }
 }

@@ -1,4 +1,4 @@
-package modelo;
+package gestionReservasAulas.dominio;
 
 import java.time.LocalDateTime;
 

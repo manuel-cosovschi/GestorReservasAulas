@@ -1,4 +1,4 @@
-package modelo;
+package gestionReservasAulas.dominio;
 
 import java.util.ArrayList;
 import java.util.List;

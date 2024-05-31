@@ -1,4 +1,4 @@
-package modelo;
+package gestionReservasAulas.dominio;
 
 public class Evento {
     private String codigo;

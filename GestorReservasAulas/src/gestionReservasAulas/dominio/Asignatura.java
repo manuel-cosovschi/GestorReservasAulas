@@ -1,4 +1,6 @@
-package modelo;
+package gestionReservasAulas.dominio;
+
+import java.sql.Date;
 
 public class Asignatura {
     private String codigo;

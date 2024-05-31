@@ -1,5 +1,8 @@
+package gestionReservasAulas.reportes;
 import java.io.File;
 import java.util.List;
+
+import gestionReservasAulas.controlador.GestionReservas;
 
 public class GenerarReportes {
     private GestionReservas gestionReservas;
