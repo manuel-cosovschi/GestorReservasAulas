@@ -28,12 +28,13 @@
 package gestionReservasAulas.controlador;
 import java.sql.Date;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.TreeSet;
 
 import gestionReservasAulas.dominio.Aula;
 
 public class GestionReservas {
-    private TreeMap<Integer, Aula> aulas;
+    private TreeSet<Aula> aulas;
+
 
     public GestionReservas() {
         this.aulas = new TreeMap<>();
