@@ -1,50 +1,18 @@
 package gestionReservasAulas.dominio;
 
-public class Evento {
-    private String codigo;
-    private String descripcion;
-    private int cantidadMaximaParticipantes;
-    private boolean esExterno;
-    private String nombreOrganizacion;
-    private double costoAlquiler;
+import java.util.Date;
 
-    public Evento(String codigo, String descripcion, int cantidadMaximaParticipantes, boolean esExterno) {
-        this.codigo = codigo;
-        this.descripcion = descripcion;
-        this.cantidadMaximaParticipantes = cantidadMaximaParticipantes;
-        this.esExterno = esExterno;
+public class Evento extends Curso {
+    private Date dia;
+    private String horaInicio;
+    private String horaFin;
+
+    public Evento(String codigo, String nombre, int cantidadAlumnos, Date dia, String horaInicio, String horaFin) {
+        super(codigo,nombre,cantidadAlumnos);
+        this.dia = dia;
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
     }
 
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public int getCantidadMaximaParticipantes() {
-        return cantidadMaximaParticipantes;
-    }
-
-    public void setCantidadMaximaParticipantes(int cantidadMaximaParticipantes) {
-        this.cantidadMaximaParticipantes = cantidadMaximaParticipantes;
-    }
-
-    public boolean isEsExterno() {
-        return esExterno;
-    }
-
-    public void setEsExterno(boolean esExterno) {
-        this.esExterno = esExterno;
-    }
 }
 
