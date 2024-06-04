@@ -1,25 +1,39 @@
 package gestionReservasAulas.dominio;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 public class Reserva implements Comparable<Reserva> {
     private static int contador = 0;
-    private int codigo;
-    private LocalDateTime fechaInicio;
-    private LocalDateTime fechaFin;
+    private String codigo;
+    private LocalDateTime horaInicio;
+    private LocalDateTime horaFin;
     private Curso quienHizoReserva;
 
-    public Reserva(LocalDateTime fechaInicio, LocalDateTime fechaFin, Curso quienHizoReserva) {
-        this.codigo = ++contador;
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
+    public Reserva(LocalDateTime horaInicio2, LocalDateTime horaFin2, Curso quienHizoReserva) {
+        this.codigo = generarCodigo();
+        this.horaInicio = horaInicio2;
+        this.horaFin = horaFin2;
         this.quienHizoReserva = quienHizoReserva;
+    }
+
+    private String generarCodigo() {
+        return "RES" + (++contador);
+    }
+
+    public String getCodigo() {
+        return codigo;
     }
 
     @Override
     public int compareTo(Reserva o) {
-        return 0;
+        return this.codigo.compareTo(o.codigo);
     }
+
+    public Curso getQuienHizoReserva() {
+        return quienHizoReserva;
+    }
+
 
 }
 

@@ -11,8 +11,17 @@ public abstract class Curso implements Comparable<Curso>{
         this.cantidadAlumnos = cantidadAlumnos;
     }
 
+    public String getCodigo() {
+        return codigo;
+    }
+
     @Override
     public int compareTo(Curso o) {
         return 0;
+    }
+
+    public int getCantidadAlumnos() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getCantidadAlumnos'");
     }
 }
