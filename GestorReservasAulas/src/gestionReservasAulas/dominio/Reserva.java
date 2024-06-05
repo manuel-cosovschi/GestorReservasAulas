@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 public class Reserva implements Comparable<Reserva> {
     private static int contador = 0;
     private String codigo;
-    private LocalDateTime horaInicio;
+    private LocalDateTime horaInicio; // se necesita la fecha y el tiempo
     private LocalDateTime horaFin;
     private Curso quienHizoReserva;
 
@@ -35,5 +35,12 @@ public class Reserva implements Comparable<Reserva> {
     }
 
 
+    public LocalDateTime getHoraInicio() {
+        return horaInicio;
+    }
+
+    public LocalDateTime getHoraFin() {
+        return horaFin;
+    }
 }
 

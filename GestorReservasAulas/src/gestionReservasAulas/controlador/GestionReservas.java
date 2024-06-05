@@ -1,8 +1,7 @@
 package gestionReservasAulas.controlador;
-import java.sql.Date;
-import java.time.LocalDateTime;
 import java.util.TreeSet;
 
+import gestionReservasAulas.dominio.Asignatura;
 import gestionReservasAulas.dominio.Aula;
 import gestionReservasAulas.dominio.Curso;
 import gestionReservasAulas.dominio.Reserva;
@@ -19,31 +18,77 @@ public class GestionReservas {
 
     }
 
-    public void registrarReserva(String tipo, String codigoEntidad, int aulaNumero, LocalDateTime HoraInicio, LocalDateTime HoraFin) throws ReservaException {
+    /**
+     * Reserva de Asignatura
+     * @param codigoAsignatura
+     * @param aulaNumero
+     * @throws ReservaException
+     */
+    public void registrarReserva(String codigoAsignatura, int aulaNumero) throws ReservaException {
+        Reserva reserva;
+        int cantReservas;
+        int diaDelAnio;
+        int i;
+
         Aula aula = buscarAula(aulaNumero);
         if (aula == null) {
             throw new ReservaException("El aula con número " + aulaNumero + " no existe.");
         }
 
-        Curso curso = buscarCurso(codigoEntidad);
-        if (curso == null) {
-            throw new ReservaException("El curso con código " + codigoEntidad + " no existe.");
+        Asignatura asignatura = buscarAsignatura(codigoAsignatura);
+        if (asignatura == null) {
+            throw new ReservaException("El curso con código " + codigoAsignatura + " no existe.");
         }
 
         // Controlar capacidad del aula
-        if (curso.getCantidadAlumnos() > aula.getCapacidad()) {
+        if (asignatura.getCantidadAlumnos() > aula.getCapacidad()) {
             throw new ReservaException("La cantidad de alumnos supera la capacidad del aula.");
         }
 
-        Reserva nuevaReserva = new Reserva(HoraInicio, HoraFin, curso);
-        // Falta controlar la disponibilidad horaria en el rango entre horaIni y horaFin.
-        
+        //validar dias
+        cantReservas = (asignatura.getFechaFin().getDayOfYear() - asignatura.getFechaInicio().getDayOfYear()) / 7;
+        diaDelAnio = asignatura.getFechaInicio().getDayOfYear();
+        while (cantReservas > 0 && aula.ValidarDisponibilidadReserva(diaDelAnio,asignatura.getHoraInicio(),asignatura.getHoraFin())){
+            diaDelAnio = diaDelAnio + 7;
+            cantReservas --;
+        }
 
-        aula.agregarReserva(nuevaReserva);
+        if (cantReservas == 0){ // si llega a 0, todos los dias estan disponibles para reservar
+            //crear y agregar todas las reservas
+            //aula.agregarReserva(nuevaReserva);
+        }
     }
 
-    public void cancelarReserva(int aulaNumero, int codigoReserva) {
-        // Implementación para cancelar una reserva
+    //falta agregar la sobrecarga para Curso y para Evento. La idea es sobrecargar el metodo registrarReserva();
+
+    private Asignatura buscarAsignatura(String codigoAsignatura) {
+        for (Curso curso : cursos) {
+            if (curso.getCodigo().equals(codigoAsignatura)) {
+                return (Asignatura)curso; //verificar que devuelve
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * Devuelve true si la reserva se pudo cancelar con exito
+     * @param aulaNumero
+     * @param codigoReserva
+     * @return
+     * @throws ReservaException
+     */
+    public boolean cancelarReserva(int aulaNumero, String codigoReserva) throws ReservaException {
+        Aula aula = buscarAula(aulaNumero);
+        if (aula == null) {
+            throw new ReservaException("El aula con número " + aulaNumero + " no existe.");
+        }
+
+        if (!aula.cancelarReserva(codigoReserva)){
+            throw new ReservaException("El codigo de reserva no existe en esa aula");
+        }
+
+        return true;
     }
 
     public TreeSet<Aula> consultarAulas(int piso, String codigoEntidad) throws ReservaException {
