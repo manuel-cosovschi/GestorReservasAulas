@@ -15,13 +15,12 @@ public abstract class Curso implements Comparable<Curso>{
         return codigo;
     }
 
+    public int getCantidadAlumnos() {
+        return cantidadAlumnos;
+    }
+
     @Override
     public int compareTo(Curso o) {
         return 0;
-    }
-
-    public int getCantidadAlumnos() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCantidadAlumnos'");
     }
 }

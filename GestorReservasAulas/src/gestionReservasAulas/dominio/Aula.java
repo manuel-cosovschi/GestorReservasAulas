@@ -1,6 +1,7 @@
 package gestionReservasAulas.dominio;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.TreeSet;
 
@@ -17,6 +18,14 @@ public class Aula implements Comparable<Aula>{
     
     public int getNumero() {
         return numero;
+    }
+
+    public int getCapacidad() {
+        return capacidad;
+    }
+
+    public TreeSet<Reserva> getReservas() {
+        return reservas;
     }
 
     public void agregarReserva(Reserva reserva) {
@@ -47,10 +56,6 @@ public class Aula implements Comparable<Aula>{
         return Integer.compare(this.numero, o.getNumero());
     }
 
-    public int getCapacidad() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCapacidad'");
-    }
 
     public Reserva buscarReserva(String codigoReserva) {
         for (Reserva reserva : reservas) {
@@ -69,13 +74,10 @@ public class Aula implements Comparable<Aula>{
         }
         return false;
     }
-
     public boolean ValidarDisponibilidadReserva(int diaDelAnio, LocalTime horaInicio, LocalTime horaFin) {
         for (Reserva reserva : reservas) {
-            if (reserva.getHoraInicio().getDayOfYear() == diaDelAnio) {
-                //Existe una reserva en el mismo dia, valido el horario
-                if (reserva.getHoraInicio().getHour() > horaFin.getHour() || reserva.getHoraFin().getHour() < horaInicio.getHour()){
-                    //La asignatura termina antes que arranque la reservada o arranca después que termina la reservada
+            if (reserva.getFechaInicio().getDayOfYear() == diaDelAnio) {
+                if (reserva.getHoraInicio().isAfter(horaFin) || reserva.getHoraFin().isBefore(horaInicio)){
                     return true;
                 }
             }

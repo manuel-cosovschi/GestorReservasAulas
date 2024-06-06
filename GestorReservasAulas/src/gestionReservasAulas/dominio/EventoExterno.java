@@ -12,5 +12,13 @@ public class EventoExterno extends Evento {
         this.nombreOrganizacion = nombreOrganizacion;
         this.costoAlquiler = costoAlquiler;
     }
+    //Los vamos a necesitar
+    public String getNombreOrganizacion() {
+        return nombreOrganizacion;
+    }
+
+    public double getCostoAlquiler() {
+        return costoAlquiler;
+    }
 
 }

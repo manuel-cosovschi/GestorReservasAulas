@@ -1,4 +1,6 @@
 package gestionReservasAulas.controlador;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.TreeSet;
 
 import gestionReservasAulas.dominio.Asignatura;
@@ -24,39 +26,26 @@ public class GestionReservas {
      * @param aulaNumero
      * @throws ReservaException
      */
-    public void registrarReserva(String codigoAsignatura, int aulaNumero) throws ReservaException {
-        Reserva reserva;
-        int cantReservas;
-        int diaDelAnio;
-        int i;
-
+     public void registrarReserva(Curso curso, int aulaNumero, LocalDateTime fechaInicio, LocalDateTime fechaFin) throws ReservaException {
         Aula aula = buscarAula(aulaNumero);
         if (aula == null) {
-            throw new ReservaException("El aula con número " + aulaNumero + " no existe.");
+            throw new ReservaException("El aula no existe");
         }
 
-        Asignatura asignatura = buscarAsignatura(codigoAsignatura);
-        if (asignatura == null) {
-            throw new ReservaException("El curso con código " + codigoAsignatura + " no existe.");
+        int diaDelAnio = fechaInicio.getDayOfYear();
+        LocalTime horaInicio = fechaInicio.toLocalTime();
+        LocalTime horaFin = fechaFin.toLocalTime();
+
+        if (!aula.ValidarDisponibilidadReserva(diaDelAnio, horaInicio, horaFin)) {
+            throw new ReservaException("El aula no está disponible en el horario solicitado");
         }
 
-        // Controlar capacidad del aula
-        if (asignatura.getCantidadAlumnos() > aula.getCapacidad()) {
-            throw new ReservaException("La cantidad de alumnos supera la capacidad del aula.");
+        if (curso.getCantidadAlumnos() > aula.getCapacidad()) {
+            throw new ReservaException("La capacidad del aula es insuficiente para la cantidad de alumnos");
         }
 
-        //validar dias
-        cantReservas = (asignatura.getFechaFin().getDayOfYear() - asignatura.getFechaInicio().getDayOfYear()) / 7;
-        diaDelAnio = asignatura.getFechaInicio().getDayOfYear();
-        while (cantReservas > 0 && aula.ValidarDisponibilidadReserva(diaDelAnio,asignatura.getHoraInicio(),asignatura.getHoraFin())){
-            diaDelAnio = diaDelAnio + 7;
-            cantReservas --;
-        }
-
-        if (cantReservas == 0){ // si llega a 0, todos los dias estan disponibles para reservar
-            //crear y agregar todas las reservas
-            //aula.agregarReserva(nuevaReserva);
-        }
+        Reserva reserva = new Reserva(fechaInicio, fechaFin, curso);
+        aula.agregarReserva(reserva);
     }
 
     //falta agregar la sobrecarga para Curso y para Evento. La idea es sobrecargar el metodo registrarReserva();
