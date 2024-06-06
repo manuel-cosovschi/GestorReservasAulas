@@ -10,5 +10,23 @@ public class CursoExtension extends Curso {
         this.costoPorAlumno = costoPorAlumno;
     }
 
+
+    public int getCantidadClases() {
+        return this.cantidadClases;
+    }
+
+    public void setCantidadClases(int cantidadClases) {
+        this.cantidadClases = cantidadClases;
+    }
+
+    public float getCostoPorAlumno() {
+        return this.costoPorAlumno;
+    }
+
+    public void setCostoPorAlumno(float costoPorAlumno) {
+        this.costoPorAlumno = costoPorAlumno;
+    }
+
+
 }
 
