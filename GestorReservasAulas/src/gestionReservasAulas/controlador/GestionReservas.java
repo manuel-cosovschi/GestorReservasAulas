@@ -47,7 +47,6 @@ public class GestionReservas {
         Reserva reserva = new Reserva(fechaInicio, fechaFin, curso);
         aula.agregarReserva(reserva);
     }
-
     //falta agregar la sobrecarga para Curso y para Evento. La idea es sobrecargar el metodo registrarReserva();
 
     private Asignatura buscarAsignatura(String codigoAsignatura) {
