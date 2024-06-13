@@ -24,14 +24,9 @@ public class Aula implements Comparable<Aula>{
         return capacidad;
     }
 
-    public TreeSet<Reserva> getReservas() {
-        return reservas;
-    }
-
     public void agregarReserva(Reserva reserva) {
         reservas.add(reserva);
     }
-
 
     public boolean tieneReservaConEntidad(String codigoEntidad) {
         for (Reserva reserva : reservas) {
@@ -42,6 +37,11 @@ public class Aula implements Comparable<Aula>{
         return false;
     }
 
+    /**
+     * Retorna TRUE si el curso indicado por parametro tiene alguna reserva en aula
+     * @param codigoEntidad
+     * @return
+     */
     public boolean tieneReserva(String codigoEntidad) {
         for (Reserva reserva : reservas) {
             if (reserva.getQuienHizoReserva().getCodigo().equals(codigoEntidad)) {
@@ -56,7 +56,11 @@ public class Aula implements Comparable<Aula>{
         return Integer.compare(this.numero, o.getNumero());
     }
 
-
+    /**
+     * Busca y retorna una Reserva o NULL si no la encuentra
+     * @param codigoReserva
+     * @return
+     */
     public Reserva buscarReserva(String codigoReserva) {
         for (Reserva reserva : reservas) {
             if (reserva.getCodigo().equals(codigoReserva)) {
@@ -66,6 +70,11 @@ public class Aula implements Comparable<Aula>{
         return null;
     }
 
+    /**
+     * Busca y elimina una reserva. Retorna TRUE si la elimina.
+     * @param codigoReserva
+     * @return
+     */
     public boolean cancelarReserva(String codigoReserva) {
         Reserva reserva = buscarReserva(codigoReserva);
         if (reserva != null){
@@ -74,9 +83,19 @@ public class Aula implements Comparable<Aula>{
         }
         return false;
     }
-    public boolean ValidarDisponibilidadReserva(int diaDelAnio, LocalTime horaInicio, LocalTime horaFin) {
+
+    /**
+     * Busca las reservas del aula que coinciden con el diaReserva y verifica que el horario de reserva no se solape
+     * con el horaInicio y el horaFin de la nueva reserva. Retorna TRUE si la nueva reserva no se solapa con ninguna
+     * reserva existente en el aula.
+     * @param diaReserva
+     * @param horaInicio
+     * @param horaFin
+     * @return
+     */
+    public boolean ValidarDisponibilidadReserva(LocalDate diaReserva, LocalTime horaInicio, LocalTime horaFin) {
         for (Reserva reserva : reservas) {
-            if (reserva.getFechaInicio().getDayOfYear() == diaDelAnio) {
+            if (reserva.getFechaInicio().equals(diaReserva)) {
                 if (reserva.getHoraInicio().isAfter(horaFin) || reserva.getHoraFin().isBefore(horaInicio)){
                     return true;
                 }

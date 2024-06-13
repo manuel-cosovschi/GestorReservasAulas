@@ -30,7 +30,16 @@ public class Asignatura extends Curso {
     public LocalTime getHoraInicio() {
         return horaInicio;
     }
+
     public LocalTime getHoraFin() {
         return horaFin;
+    }
+
+    /**
+     * Devuelve la cantidad de dias totales de una Asignatura
+     * @return
+     */
+    public int getCantidadClases() {
+        return (fechaFin.getDayOfYear() - fechaInicio.getDayOfYear()) / 7;
     }
 }

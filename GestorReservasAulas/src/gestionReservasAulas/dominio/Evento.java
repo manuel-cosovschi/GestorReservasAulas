@@ -15,5 +15,16 @@ public class Evento extends Curso {
         this.horaFin = horaFin;
     }
 
+    public LocalDate getDia() {
+        return dia;
+    }
+
+    public LocalTime getHoraInicio() {
+        return horaInicio;
+    }
+
+    public LocalTime getHoraFin() {
+        return horaFin;
+    }
 }
 

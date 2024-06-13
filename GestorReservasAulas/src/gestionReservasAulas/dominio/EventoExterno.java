@@ -12,6 +12,13 @@ public class EventoExterno extends Evento {
         this.nombreOrganizacion = nombreOrganizacion;
         this.costoAlquiler = costoAlquiler;
     }
+
+    //PARA CONSULTAR
+    // No estoy seguro si es necesario o no, pero en el Registrar Reserva se informan Organización y Costo Alquiler. Supongo que es para setearlo en esta clase
+    public EventoExterno(String codigo, String nombre, int cantidadAlumnos, LocalDate dia, LocalTime horaInicio, LocalTime horaFin) {
+        super(codigo,nombre,cantidadAlumnos,dia,horaInicio,horaFin);
+    }
+
     //Los vamos a necesitar
     public String getNombreOrganizacion() {
         return nombreOrganizacion;
