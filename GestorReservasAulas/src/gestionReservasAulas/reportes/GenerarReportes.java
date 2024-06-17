@@ -107,4 +107,30 @@ public class GenerarReportes {
             System.out.println("Error al consultar aulas: " + e.getMessage());
         }
     }
+
+    public void generarReportePromedioReservas() {
+        try {
+            TreeSet<Aula> aulas = gestionReservas.consultarAulas(-1, null);
+            double totalReservas = 0;
+            int totalAulas = aulas.size();
+    
+            try (FileWriter writer = new FileWriter("reporte_promedio_reservas.txt")) {
+                writer.write("Cantidad de reservas por aula:\n");
+                for (Aula aula : aulas) {
+                    int cantidadReservas = aula.getReservas().size();
+                    totalReservas += cantidadReservas;
+                    writer.write("Aula " + aula.getNumero() + ": " + cantidadReservas + " reservas\n");
+                }
+                double promedioReservas = totalReservas / totalAulas;
+                writer.write("\nPromedio de reservas por aula: " + promedioReservas + "\n");
+            } catch (IOException e) {
+                System.out.println("Error al escribir en el archivo: " + e.getMessage());
+            }
+        } catch (ReservaException e) {
+            System.out.println("Error al consultar aulas: " + e.getMessage());
+        }
+    }
 }
+
+
+
