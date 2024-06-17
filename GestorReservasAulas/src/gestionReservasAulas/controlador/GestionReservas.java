@@ -12,10 +12,8 @@ public class GestionReservas {
     private TreeSet<Curso> cursos;
 
     public GestionReservas() {
-
         this.aulas = new TreeSet<>();
         this.cursos = new TreeSet<>();
-
     }
 
     /**
@@ -164,7 +162,7 @@ public class GestionReservas {
             if (aula == null) {
                 throw new ReservaException("El aula con número " + aulaNumero[i] + " no existe.");
             }
-            capacidadTotalAulas = capacidadTotalAulas + aula.getCapacidad();
+            capacidadTotalAulas += aula.getCapacidad();
 
             // Valido disponibilidad horaria en este punto para evitar recorrer y buscar las aulas nuevamente
             if (!aula.ValidarDisponibilidadReserva(evento.getDia(), evento.getHoraInicio(), evento.getHoraFin())){
