@@ -128,7 +128,12 @@ public class GestionReservas {
     }
 
     /**
-     *
+     * Registra las reservas de un Evento (interno o externo).
+     * @param codigoEvento
+     * @param organizacion
+     * @param costoAlquiler
+     * @param aulaNumero
+     * @throws ReservaException
      */
     public void registrarReserva(String codigoEvento, String organizacion, float costoAlquiler, int... aulaNumero) throws ReservaException {
         Aula aula = null;
@@ -139,10 +144,15 @@ public class GestionReservas {
         LocalDateTime finEvento;
 
         // Controlar existencia del Evento
-        if (!organizacion.isEmpty() || costoAlquiler != 0)
+        if (!organizacion.isEmpty() || costoAlquiler != 0) {
             evento = buscarEventoExterno(codigoEvento);
+            if (evento != null) {
+                ((EventoExterno) evento).setNombreOrganizacion(organizacion);
+                ((EventoExterno) evento).setCostoAlquiler(costoAlquiler);
+            }
+        }
         else
-            evento = buscarEvento(codigoEvento);
+            evento = buscarEventoInterno(codigoEvento);
 
         if (evento == null) {
             throw new ReservaException("El evento con código " + codigoEvento + " no existe.");
@@ -171,11 +181,8 @@ public class GestionReservas {
         inicioEvento = LocalDateTime.of(evento.getDia(), evento.getHoraInicio());
         finEvento = LocalDateTime.of(evento.getDia(), evento.getHoraFin());
         for (int i = 0; i < cantidadAulas; i++) {
-            // Si tiene organizacion o tiene costoAlquiler, es Evento Externo
             aula = buscarAula(i);
-            if (!organizacion.equals("") || costoAlquiler != 0){
-                aula.agregarReserva(new Reserva(inicioEvento, finEvento, evento));
-            }
+            aula.agregarReserva(new Reserva(inicioEvento, finEvento, evento));
         }
     }
 
@@ -212,7 +219,7 @@ public class GestionReservas {
      * @param codigoEvento
      * @return
      */
-    private Evento buscarEvento(String codigoEvento) {
+    private Evento buscarEventoInterno(String codigoEvento) {
         for (Curso curso : cursos) {
             if (curso.getCodigo().equals(codigoEvento)) {
                 return (Evento)curso;
@@ -274,19 +281,15 @@ public class GestionReservas {
         return aulasFiltradas;
     }
 
+    /**
+     * Busca y retorna el aula acorde al numero ingresado por parametro. Returna NULL si no la encuentra
+     * @param numero
+     * @return
+     */
     private Aula buscarAula(int numero) {
         for (Aula aula : aulas) {
             if (aula.getNumero() == numero) {
                 return aula;
-            }
-        }
-        return null;
-    }
-
-    private Curso buscarCurso(String codigo) {
-        for (Curso curso : cursos) {
-            if (curso.getCodigo().equals(codigo)) {
-                return curso;
             }
         }
         return null;

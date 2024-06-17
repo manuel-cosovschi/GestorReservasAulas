@@ -13,8 +13,6 @@ public class EventoExterno extends Evento {
         this.costoAlquiler = costoAlquiler;
     }
 
-    //PARA CONSULTAR
-    // No estoy seguro si es necesario o no, pero en el Registrar Reserva se informan Organización y Costo Alquiler. Supongo que es para setearlo en esta clase
     public EventoExterno(String codigo, String nombre, int cantidadAlumnos, LocalDate dia, LocalTime horaInicio, LocalTime horaFin) {
         super(codigo,nombre,cantidadAlumnos,dia,horaInicio,horaFin);
     }
@@ -26,6 +24,14 @@ public class EventoExterno extends Evento {
 
     public double getCostoAlquiler() {
         return costoAlquiler;
+    }
+
+    public void setNombreOrganizacion(String nombreOrganizacion) {
+        this.nombreOrganizacion = nombreOrganizacion;
+    }
+
+    public void setCostoAlquiler(float costoAlquiler) {
+        this.costoAlquiler = costoAlquiler;
     }
 
 }

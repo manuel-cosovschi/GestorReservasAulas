@@ -1,6 +1,8 @@
 import gestionReservasAulas.controlador.GestionReservas;
 import gestionReservasAulas.util.CargaDatos;
+import gestionReservasAulas.vista.IUPrincipal;
 
+import javax.swing.*;
 import java.io.File;
 
 public class Main {
@@ -12,8 +14,20 @@ public class Main {
         // Cargar datos desde un archivo
         File archivo = new File("GestorReservasAulas/archivoAula.txt");
         cargaDatosTxt.cargarDatos(archivo);
+
+        IUPrincipal iuPrincipal = new IUPrincipal();
+
+        JFrame framePrincipal = new JFrame();
+        framePrincipal.setContentPane(iuPrincipal.getPanel1());
+        //framePrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        framePrincipal.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        framePrincipal.setResizable(false);
+        framePrincipal.setSize(500, 300);
+        framePrincipal.setLocationRelativeTo(null);
+        //framePrincipal.setUndecorated(true);
+        //framePrincipal.pack();
+        framePrincipal.setVisible(true);
     }
 }
 
 // Cambiar el nombre de la clase abstracta "Curso" por uno mas representativo.
-// cantReservas = (asignatura.getFechaFin().getDayOfYear() - asignatura.getFechaInicio().getDayOfYear()) / 7; Consultar si dias totales asignaturas es multiplo de 7

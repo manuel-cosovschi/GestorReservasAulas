@@ -104,6 +104,10 @@ public class Aula implements Comparable<Aula>{
         return false;
     }
 
+    public TreeSet<Reserva> getReservas() {
+        return reservas;
+    }
+
     // To do:   // Métodos para agregar, eliminar y listar reservas
                 // Agregar los @overrride de Comparable (compareTo, equals) y toString
 }
