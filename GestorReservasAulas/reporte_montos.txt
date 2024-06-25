@@ -1,0 +1,19 @@
+Monto recaudado por aula:
+Aula 10: $0.0
+Aula 20: $0.0
+Aula 101: $0.0
+Aula 105: $144000.0
+Aula 302: $0.0
+Aula 308: $0.0
+Aula 315: $0.0
+Aula 401: $0.0
+Aula 420: $0.0
+Aula 421: $0.0
+
+Monto recaudado por piso:
+Piso 0: $0.0
+Piso 1: $144000.0
+Piso 3: $0.0
+Piso 4: $0.0
+
+Monto total recaudado por la institución: $144000.0

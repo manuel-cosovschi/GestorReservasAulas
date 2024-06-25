@@ -10,10 +10,22 @@ import gestionReservasAulas.excepciones.ReservaException;
 public class GestionReservas {
     private TreeSet<Aula> aulas;
     private TreeSet<Curso> cursos;
+    private static GestionReservas gestionReservas;
 
     public GestionReservas() {
         this.aulas = new TreeSet<>();
         this.cursos = new TreeSet<>();
+    }
+
+    /**
+     * Singleton. Evito mas de una instancia del sistema
+     * @return
+     */
+    public static GestionReservas getSingletonInstance() {
+        if (gestionReservas == null) {
+            gestionReservas = new GestionReservas();
+        }
+        return gestionReservas;
     }
 
     /**
@@ -36,7 +48,7 @@ public class GestionReservas {
         }
 
         // Controlar existencia de la asignatura
-        Asignatura asignatura = buscarAsignatura(codigoAsignatura);
+        Curso asignatura = buscarCurso(codigoAsignatura);
         if (asignatura == null) {
             throw new ReservaException("El curso con código " + codigoAsignatura + " no existe.");
         }
@@ -92,7 +104,7 @@ public class GestionReservas {
         }
 
         // Controlar existencia del Curso de Extención
-        CursoExtension cursoExt = buscarCursoExtencion(codigoCursoExt);
+        Curso cursoExt = buscarCurso(codigoCursoExt);
         if (cursoExt == null) {
             throw new ReservaException("El curso con código " + codigoCursoExt + " no existe.");
         }
@@ -133,25 +145,15 @@ public class GestionReservas {
      * @param aulaNumero
      * @throws ReservaException
      */
-    public void registrarReserva(String codigoEvento, String organizacion, float costoAlquiler, int... aulaNumero) throws ReservaException {
+    public void registrarReserva(String codigoEvento, String organizacion, float costoAlquiler, Integer aulaNumero[]) throws ReservaException {
         Aula aula = null;
-        Evento evento;
         int capacidadTotalAulas = 0;
         int cantidadAulas = aulaNumero.length;
         LocalDateTime inicioEvento;
         LocalDateTime finEvento;
 
         // Controlar existencia del Evento
-        if (!organizacion.isEmpty() || costoAlquiler != 0) {
-            evento = buscarEventoExterno(codigoEvento);
-            if (evento != null) {
-                ((EventoExterno) evento).setNombreOrganizacion(organizacion);
-                ((EventoExterno) evento).setCostoAlquiler(costoAlquiler);
-            }
-        }
-        else
-            evento = buscarEventoInterno(codigoEvento);
-
+        Curso evento = buscarCurso(codigoEvento);
         if (evento == null) {
             throw new ReservaException("El evento con código " + codigoEvento + " no existe.");
         }
@@ -165,7 +167,7 @@ public class GestionReservas {
             capacidadTotalAulas += aula.getCapacidad();
 
             // Valido disponibilidad horaria en este punto para evitar recorrer y buscar las aulas nuevamente
-            if (!aula.ValidarDisponibilidadReserva(evento.getDia(), evento.getHoraInicio(), evento.getHoraFin())){
+            if (!aula.ValidarDisponibilidadReserva(evento.getFechaInicio(), evento.getHoraInicio(), evento.getHoraFin())){
                 throw new ReservaException("El aula no está disponible en el horario solicitado");
             }
         }
@@ -176,67 +178,26 @@ public class GestionReservas {
         }
 
         // Creo y agrego todas las reservas del Evento
-        inicioEvento = LocalDateTime.of(evento.getDia(), evento.getHoraInicio());
-        finEvento = LocalDateTime.of(evento.getDia(), evento.getHoraFin());
+        evento.setNombreOrganizacion(organizacion);
+        evento.setCostoAlquiler(costoAlquiler);
+        inicioEvento = LocalDateTime.of(evento.getFechaInicio(), evento.getHoraInicio());
+        finEvento = LocalDateTime.of(evento.getFechaInicio(), evento.getHoraFin());
         for (int i = 0; i < cantidadAulas; i++) {
-            aula = buscarAula(i);
+            aula = buscarAula(aulaNumero[i]);
             aula.agregarReserva(new Reserva(inicioEvento, finEvento, evento));
         }
     }
 
     /**
-     * Busca y retorna un Curso Asignatura o NULL si no lo encuentra
-     * @param codigoAsignatura
+     * Busca y devuelve un curso. Retorna null si no lo encuentra.
+     * @param codigoCurso
      * @return
      */
-    private Asignatura buscarAsignatura(String codigoAsignatura) {
-        for (Curso curso : cursos) {
-            if (curso.getCodigo().equals(codigoAsignatura)) {
-                return (Asignatura)curso; //verificar que devuelve
+    public Curso buscarCurso(String codigoCurso){
+        for (Curso curso : cursos)
+            if (curso.getCodigo().equals(codigoCurso)) {
+                return curso; //verificar que devuelve
             }
-        }
-        return null;
-    }
-
-    /**
-     * Busca y retorna un Curso CursoExtención o NULL si no lo encuentra
-     * @param codigoCursoExt
-     * @return
-     */
-    private CursoExtension buscarCursoExtencion(String codigoCursoExt) {
-        for (Curso curso : cursos) {
-            if (curso.getCodigo().equals(codigoCursoExt)) {
-                return (CursoExtension)curso;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Busca y retorna un Curso Evento o NULL si no lo encuentra
-     * @param codigoEvento
-     * @return
-     */
-    private Evento buscarEventoInterno(String codigoEvento) {
-        for (Curso curso : cursos) {
-            if (curso.getCodigo().equals(codigoEvento)) {
-                return (Evento)curso;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Busca y retorna un Curso EventoExterno o NULL si no lo encuentra
-     * @param codigoEvento
-     * @return
-     */
-    private EventoExterno buscarEventoExterno(String codigoEvento) {
-        for (Curso curso : cursos) {
-            if (curso.getCodigo().equals(codigoEvento)) {
-                return (EventoExterno)curso;
-            }
-        }
         return null;
     }
 
@@ -260,31 +221,12 @@ public class GestionReservas {
         return true;
     }
 
-    public TreeSet<Aula> consultarAulas(int piso, String codigoEntidad) throws ReservaException {
-        TreeSet<Aula> aulasFiltradas = new TreeSet<>();
-    
-        for (Aula aula : this.aulas) {
-            boolean pisoCoincide = (piso == 0) || (aula.getNumero() / 100 == piso);
-            boolean tieneReservaEntidad = codigoEntidad.isEmpty() || aula.tieneReserva(codigoEntidad);
-    
-            if (pisoCoincide && tieneReservaEntidad) {
-                aulasFiltradas.add(aula);
-            }
-        }
-
-        if (aulasFiltradas.isEmpty()) {
-            throw new ReservaException("No se encontraron aulas para los filtros proporcionados.");
-        }
-    
-        return aulasFiltradas;
-    }
-
     /**
      * Busca y retorna el aula acorde al numero ingresado por parametro. Returna NULL si no la encuentra
      * @param numero
      * @return
      */
-    private Aula buscarAula(int numero) {
+    public Aula buscarAula(int numero) {
         for (Aula aula : aulas) {
             if (aula.getNumero() == numero) {
                 return aula;
@@ -293,12 +235,35 @@ public class GestionReservas {
         return null;
     }
 
+    /**
+     * Agrega un Aula a la colección.
+     * @param aula
+     */
     public void agregarAula(Aula aula) {
         aulas.add(aula);
     }
 
+    /**
+     * Agrega un curso a la colección.
+     * @param curso
+     */
     public void agregarCurso(Curso curso) {
         cursos.add(curso);
     }
-    
+
+    /**
+     * Retorna la lista completa de cursos.
+     * @return
+     */
+    public TreeSet<Curso> getCursos() {
+        return cursos;
+    }
+
+    /**
+     * Retorna la lista completa de aulas.
+     * @return
+     */
+    public TreeSet<Aula> getAulas() {
+        return aulas;
+    }
 }

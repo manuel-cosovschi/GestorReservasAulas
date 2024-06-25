@@ -1,7 +1,6 @@
 package gestionReservasAulas.dominio;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.TreeSet;
 
@@ -15,45 +14,35 @@ public class Aula implements Comparable<Aula>{
         this.capacidad = capacidad;
         this.reservas = new TreeSet<>();
     }
-    
+
+    /**
+     * Retorna el numero/codigo del aula.
+     * @return
+     */
     public int getNumero() {
         return numero;
     }
 
+    /**
+     * Retorna la capacidad máxima de alumnos del aula.
+     * @return
+     */
     public int getCapacidad() {
         return capacidad;
     }
 
+    /**
+     * Agrega una reserva a la coleccion de reservas.
+     * @param reserva
+     */
     public void agregarReserva(Reserva reserva) {
         reservas.add(reserva);
     }
 
-    public boolean tieneReservaConEntidad(String codigoEntidad) {
-        for (Reserva reserva : reservas) {
-            if (reserva.getQuienHizoReserva().getCodigo().equals(codigoEntidad)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Retorna TRUE si el curso indicado por parametro tiene alguna reserva en aula
-     * @param codigoEntidad
-     * @return
-     */
-    public boolean tieneReserva(String codigoEntidad) {
-        for (Reserva reserva : reservas) {
-            if (reserva.getQuienHizoReserva().getCodigo().equals(codigoEntidad)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     public int compareTo(Aula o) {
-        return Integer.compare(this.numero, o.getNumero());
+        Aula aula = (Aula) o;
+        return Integer.compare(this.numero, o.numero);
     }
 
     /**
@@ -96,20 +85,45 @@ public class Aula implements Comparable<Aula>{
     public boolean ValidarDisponibilidadReserva(LocalDate diaReserva, LocalTime horaInicio, LocalTime horaFin) {
         for (Reserva reserva : reservas) {
             if (reserva.getFechaInicio().equals(diaReserva)) {
-                if (reserva.getHoraInicio().isAfter(horaFin) || reserva.getHoraFin().isBefore(horaInicio)){
-                    return true;
+                if (!(reserva.getHoraInicio().isAfter(horaFin) || reserva.getHoraFin().isBefore(horaInicio))) {
+                    return false;
                 }
             }
         }
-        return false;
+        return true;
     }
 
+    /**
+     * Retorna la colección de reservas del aula
+     * @return
+     */
     public TreeSet<Reserva> getReservas() {
         return reservas;
     }
 
-    // To do:   // Métodos para agregar, eliminar y listar reservas
-                // Agregar los @overrride de Comparable (compareTo, equals) y toString
+    /**
+     * Retorna el número de piso en donde se encuentra el aula.
+     * @return
+     */
+    public String getNumeroPiso() {
+        return Integer.toString(numero / 100);
+    }
+
+    /**
+     * Retorna el número del aula.
+     * @return
+     */
+    public String getNumeroAula() {
+        return Integer.toString(numero % 100);
+    }
+
+    /**
+     * Retorna la cantidad total de reservas registradas del aula.
+     * @return
+     */
+    public int getCantidadReservasTotal() {
+        return reservas.size();
+    }
 }
 
 

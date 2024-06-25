@@ -17,21 +17,40 @@ public class EventoExterno extends Evento {
         super(codigo,nombre,cantidadAlumnos,dia,horaInicio,horaFin);
     }
 
-    //Los vamos a necesitar
-    public String getNombreOrganizacion() {
+    /**
+     * Retorna el nombre de la organización responsable del Evento Externo.
+     * @return
+     */
+    @Override
+    public String getOrganizacion() {
         return nombreOrganizacion;
     }
 
-    public double getCostoAlquiler() {
-        return costoAlquiler;
-    }
-
+    /**
+     * Registra el nombre de la organización responsable de la ultima reserva realizada sobre el Evento Externo.
+     * @param nombreOrganizacion
+     */
+    @Override
     public void setNombreOrganizacion(String nombreOrganizacion) {
         this.nombreOrganizacion = nombreOrganizacion;
     }
 
+    /**
+     * registra el costo de alquiler del Evento Externo.
+     * @param costoAlquiler
+     */
+    @Override
     public void setCostoAlquiler(float costoAlquiler) {
         this.costoAlquiler = costoAlquiler;
+    }
+
+    /**
+     * Retorna el costo de alquiler del Evento Externo.
+     * @return
+     */
+    @Override
+    public float getCostoPorAlumno(){
+        return costoAlquiler;
     }
 
 }

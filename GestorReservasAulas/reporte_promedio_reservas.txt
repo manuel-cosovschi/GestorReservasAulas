@@ -1,0 +1,13 @@
+Cantidad de reservas por aula:
+Aula 10: 0 reservas
+Aula 20: 1 reservas
+Aula 101: 36 reservas
+Aula 105: 24 reservas
+Aula 302: 1 reservas
+Aula 308: 1 reservas
+Aula 315: 1 reservas
+Aula 401: 3 reservas
+Aula 420: 3 reservas
+Aula 421: 3 reservas
+
+Promedio de reservas por aula: 7.3
